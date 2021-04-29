@@ -1,5 +1,6 @@
-#version 6 - combining the search and rating frames into one program
+#version 8 - adding the summary frame to the main program, and letting the user switch between frames
 from tkinter import *
+from tkinter.scrolledtext import *
 
 #constant list - the different ratings there are
 RATINGS = ["No Rating", "1", "2", "3", "4", "5"]
@@ -68,10 +69,22 @@ class MovieRaterGUI:
 
         search_rb_frame.grid(row = 1, column = 0, pady = 5)
 
-        self.search_but = Button(search_frame, text = "Go!", command = self.printsearch)
+        self.search_but = Button(search_frame, text = "Go!", command = self.search)
         self.search_but.grid(row = 2, column = 0)
 
         search_frame.grid(row = 1, column = 0, sticky = S)
+
+        #setting up the summary frame
+        self.summ_frame = Frame(parent)
+
+        info_label = Label(self.summ_frame, text = "You have given the following movies a rating of {}:".format(self.search_rate.get()))
+        info_label.grid(row = 0, column = 0)
+
+        self.movie_display = ScrolledText(self.summ_frame, width = 50, height = 10, wrap = "word")
+        self.movie_display.grid(row = 1, column = 0, padx = 10)
+
+        back_rate_but = Button(self.summ_frame, text = "Back to rating", command = self.back_rate)
+        back_rate_but.grid(row = 2, column = 0)
         
     #a method that prints the rating for a movie
     def printrate(self):
@@ -105,9 +118,16 @@ class MovieRaterGUI:
         else:
             self.back_but.configure(state = NORMAL)
 
-    #a method that prints what rating should be searched for 
-    def printsearch(self):
+    #a method that hides the rating frame and shows the summary frame
+    def search(self):
         print(self.search_rate.get())
+        self.rate_frame.grid_remove()
+        self.summ_frame.grid(row=0, column = 0)
+
+    #a method that hides the summary frame and shows the rating frame
+    def back_rate(self):
+        self.summ_frame.grid_remove()
+        self.rate_frame.grid()
 
 #main routine
 if __name__ == "__main__":
