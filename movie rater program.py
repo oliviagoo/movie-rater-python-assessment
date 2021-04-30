@@ -1,4 +1,4 @@
-#version 8 - adding the summary frame to the main program, and letting the user switch between frames
+#version 9 - getting the movies to show in searches
 from tkinter import *
 from tkinter.scrolledtext import *
 
@@ -22,6 +22,7 @@ class MovieRaterGUI:
         self.movies_list.append(Movie("Spirited Away"))
 
         #setting up the variables needed
+        self.search_results = []
         self.position = 0
         self.rating = StringVar()
         self.rating.set(self.movies_list[self.position].rating)
@@ -121,8 +122,24 @@ class MovieRaterGUI:
     #a method that hides the rating frame and shows the summary frame
     def search(self):
         print(self.search_rate.get())
+        self.search_results.clear()
         self.rate_frame.grid_remove()
         self.summ_frame.grid(row=0, column = 0)
+
+        self.movie_display.configure(state = "normal")
+        self.movie_display.delete("1.0", END)
+        self.movie_display.configure(state = "disabled")
+        
+        for movie in self.movies_list:
+            if movie.rating == self.search_rate.get():
+                self.search_results.append(movie.name)
+        if len(self.search_results) < 1:
+            self.search_results.append("There are no movies with this rating!")
+
+        for title in self.search_results:
+            self.movie_display.configure(state = "normal")
+            self.movie_display.insert(END, title + "\n")
+            self.movie_display.configure(state = "disabled")
 
     #a method that hides the summary frame and shows the rating frame
     def back_rate(self):
