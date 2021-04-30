@@ -1,4 +1,4 @@
-#version 10 - fixing the info label and layout
+#version 11 - fixing the search before any rating buttons are pressed
 from tkinter import *
 from tkinter.scrolledtext import *
 
@@ -27,6 +27,7 @@ class MovieRaterGUI:
         self.rating = StringVar()
         self.rating.set(self.movies_list[self.position].rating)
         self.search_rate = StringVar()
+        self.search_rate.set(RATINGS[0])
         
         #setting up the rating frame
         self.rate_frame = Frame(parent)
