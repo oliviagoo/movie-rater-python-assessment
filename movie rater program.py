@@ -1,4 +1,4 @@
-#version 9 - getting the movies to show in searches
+#version 10 - fixing the info label and layout
 from tkinter import *
 from tkinter.scrolledtext import *
 
@@ -78,14 +78,14 @@ class MovieRaterGUI:
         #setting up the summary frame
         self.summ_frame = Frame(parent)
 
-        info_label = Label(self.summ_frame, text = "You have given the following movies a rating of {}:".format(self.search_rate.get()))
-        info_label.grid(row = 0, column = 0)
+        self.info_label = Label(self.summ_frame, text = "")
+        self.info_label.grid(row = 0, column = 0)
 
-        self.movie_display = ScrolledText(self.summ_frame, width = 50, height = 10, wrap = "word")
+        self.movie_display = ScrolledText(self.summ_frame, width = 35, height = 10, wrap = "word")
         self.movie_display.grid(row = 1, column = 0, padx = 10)
 
         back_rate_but = Button(self.summ_frame, text = "Back to rating", command = self.back_rate)
-        back_rate_but.grid(row = 2, column = 0)
+        back_rate_but.grid(row = 2, column = 0, pady = 10)
         
     #a method that prints the rating for a movie
     def printrate(self):
@@ -140,6 +140,11 @@ class MovieRaterGUI:
             self.movie_display.configure(state = "normal")
             self.movie_display.insert(END, title + "\n")
             self.movie_display.configure(state = "disabled")
+
+        if self.search_rate.get() != RATINGS[0]:
+            self.info_label.configure(text = "You have given the following movies a rating of {}:".format(self.search_rate.get()))
+        else:
+            self.info_label.configure(text = "You have not given these movies a rating:")
 
     #a method that hides the summary frame and shows the rating frame
     def back_rate(self):
