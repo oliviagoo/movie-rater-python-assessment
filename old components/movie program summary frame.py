@@ -19,6 +19,7 @@ class MovieRaterGUI:
         self.movie_display.insert(END, "Example text \nExample text etc. etc. etc. \n\n\n\n\nexample\n\nmore example text\n\n\n")
         self.movie_display.configure(state = "disabled")
 
+        back_rate_but = Button(self.summ_frame, text = "Back to rating")
         back_rate_but.grid(row = 2, column = 0)
 
         self.summ_frame.grid(row = 0, column = 0)
