@@ -1,4 +1,4 @@
-#version 11 - fixing the search before any rating buttons are pressed
+#version 12 - removing print statements and adding more movies
 from tkinter import *
 from tkinter.scrolledtext import *
 
@@ -20,6 +20,10 @@ class MovieRaterGUI:
         self.movies_list.append(Movie("The Titanic"))
         self.movies_list.append(Movie("Jurassic Park"))
         self.movies_list.append(Movie("Spirited Away"))
+        self.movies_list.append(Movie("Mary Poppins"))
+        self.movies_list.append(Movie("The Lion King"))
+        self.movies_list.append(Movie("The Wizard of Oz"))
+        self.movies_list.append(Movie("E.T. the Extra Terrestrial"))
 
         #setting up the variables needed
         self.search_results = []
@@ -44,7 +48,7 @@ class MovieRaterGUI:
         rb_frame = Frame(self.rate_frame)
         self.rating_list = []
         for rating in RATINGS:
-            rb = Radiobutton(rb_frame, text = rating, value = rating, variable = self.rating, command = self.printrate)
+            rb = Radiobutton(rb_frame, text = rating, value = rating, variable = self.rating, command = self.set_rate)
             rb.grid(row = RATINGS.index(rating), column = 0, sticky = W)
             self.rating_list.append(rb)
 
@@ -88,11 +92,9 @@ class MovieRaterGUI:
         back_rate_but = Button(self.summ_frame, text = "Back to rating", command = self.back_rate)
         back_rate_but.grid(row = 2, column = 0, pady = 10)
         
-    #a method that prints the rating for a movie
-    def printrate(self):
-        print(self.rating.get())
+    #a method that sets the rating for a movie
+    def set_rate(self):
         self.movies_list[self.position].rating = self.rating.get()
-        print(self.movies_list[self.position].rating)
 
     #a method that moves to the next movie in the list
     def go_next(self):
@@ -122,7 +124,6 @@ class MovieRaterGUI:
 
     #a method that hides the rating frame and shows the summary frame
     def search(self):
-        print(self.search_rate.get())
         self.search_results.clear()
         self.rate_frame.grid_remove()
         self.summ_frame.grid(row=0, column = 0)
