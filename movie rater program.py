@@ -1,4 +1,4 @@
-#version 16 - improving the search result output
+#version 17 - adding a welcome screen to the start of the program
 from tkinter import *
 from tkinter.scrolledtext import *
 
@@ -62,15 +62,14 @@ class MovieRaterGUI:
         self.update_label = Label(self.rate_frame, text = "")
         self.update_label.grid(row = 3, column = 0, columnspan = 2)
 
-        self.rate_frame.grid(row = 0, column = 0, sticky = N, pady = 10)
 
         #setting up the search frame
-        search_frame = Frame(parent, bg = "#f5f5f5")
+        self.search_frame = Frame(parent, bg = "#f5f5f5")
         
-        search_label = Label(search_frame, text = "Search for movies with a rating of: ", bg = "#f5f5f5")
+        search_label = Label(self.search_frame, text = "Search for movies with a rating of: ", bg = "#f5f5f5")
         search_label.grid(row = 0, column = 0, pady = 5)
 
-        search_cb_frame = Frame(search_frame)
+        search_cb_frame = Frame(self.search_frame)
         self.search_buts = []
         for rating in RATINGS:
             v = StringVar()
@@ -81,10 +80,9 @@ class MovieRaterGUI:
 
         search_cb_frame.grid(row = 1, column = 0, pady = 5)
 
-        self.search_but = Button(search_frame, text = "Go!", command = self.search, state = DISABLED)
+        self.search_but = Button(self.search_frame, text = "Go!", command = self.search, state = DISABLED)
         self.search_but.grid(row = 2, column = 0)
 
-        search_frame.grid(row = 1, column = 0, sticky = S)
 
         #setting up the summary frame
         self.summ_frame = Frame(parent)
@@ -100,6 +98,31 @@ class MovieRaterGUI:
 
         back_rate_but = Button(self.summ_frame, text = "Back to rating", command = self.back_rate)
         back_rate_but.grid(row = 3, column = 0, pady = 10)
+
+        #setting up the welcome frame
+        self.welcome_frame = Frame(parent)
+
+        welcome_label = Label(self.welcome_frame, text = "Welcome to the Movie Rater Program!", font = ("Times", "32", "bold"))
+        welcome_label.grid(row = 0, column = 0)
+
+        initial_instructions = Label(self.welcome_frame, text = """You will be given a list of movies to rate from 1-5.
+Navigate the list using the previous and next buttons.
+If you haven't seen a movie, or you aren't sure, you can select No Rating.
+You can also search for movies under one or more ratings by
+selecting their checkboxes and pressing Go!
+Happy rating!""")
+        initial_instructions.grid(row = 1, column = 0)
+
+        self.start_button = Button(self.welcome_frame, text = "Get Started!", command = self.start_rating)
+        self.start_button.grid(row = 2, column = 0, pady = 10)
+
+        self.welcome_frame.grid(row = 0, column = 0)
+
+    #the method that starts the program
+    def start_rating(self):
+        self.welcome_frame.grid_forget()
+        self.rate_frame.grid(row = 0, column = 0, sticky = N, pady = 10)
+        self.search_frame.grid(row = 1, column = 0, sticky = S)
         
     #a method that sets the rating for a movie
     def set_rate(self):
