@@ -1,4 +1,4 @@
-#version 14 - adding a rating updated label
+#version 15 - fixing the searching bug
 from tkinter import *
 from tkinter.scrolledtext import *
 
@@ -153,21 +153,22 @@ class MovieRaterGUI:
         for movie in self.movies_list:
             if movie.rating in self.search_rate:
                 self.search_results.append(movie)
-        if len(self.search_results) < 1:
-            self.search_results.append("There are no movies with this rating!")
 
         #displaying the movie results
-        for title in self.search_results:
-            self.movie_display.configure(state = "normal")
-            if title.rating != RATINGS[0]:
-                self.movie_display.insert(END, title.name + "\n")
-                self.movie_display.insert(END, "    - {}/5".format(title.rating) + "\n", "title_rating")
-            else:
-                self.movie_display.insert(END, title.name + "\n")
-                self.movie_display.insert(END, "    - {}".format(title.rating) + "\n", "title_rating")
-            
-            self.movie_display.tag_config("title_rating", foreground="blue")
-            self.movie_display.configure(state = "disabled")
+        self.movie_display.configure(state = "normal")
+        if len(self.search_results) < 1:
+            self.movie_display.insert(END, "There are no movies with this rating!")
+        else:
+            for title in self.search_results:
+                if title.rating != RATINGS[0]:
+                    self.movie_display.insert(END, title.name + "\n")
+                    self.movie_display.insert(END, "    - {}/5".format(title.rating) + "\n", "title_rating")
+                else:
+                    self.movie_display.insert(END, title.name + "\n")
+                    self.movie_display.insert(END, "    - {}".format(title.rating) + "\n", "title_rating")
+                
+                self.movie_display.tag_config("title_rating", foreground="blue")
+        self.movie_display.configure(state = "disabled")
 
         #configuring the info label
         search_string = ", ".join(self.search_rate)
