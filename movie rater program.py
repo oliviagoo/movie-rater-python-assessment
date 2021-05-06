@@ -1,4 +1,4 @@
-#version 15 - fixing the searching bug
+#version 16 - improving the search result output
 from tkinter import *
 from tkinter.scrolledtext import *
 
@@ -95,8 +95,11 @@ class MovieRaterGUI:
         self.movie_display = ScrolledText(self.summ_frame, width = 35, height = 10, wrap = "word")
         self.movie_display.grid(row = 1, column = 0, padx = 10)
 
+        self.search_number = Label(self.summ_frame, text = "")
+        self.search_number.grid(row = 2, column = 0)
+
         back_rate_but = Button(self.summ_frame, text = "Back to rating", command = self.back_rate)
-        back_rate_but.grid(row = 2, column = 0, pady = 10)
+        back_rate_but.grid(row = 3, column = 0, pady = 10)
         
     #a method that sets the rating for a movie
     def set_rate(self):
@@ -173,6 +176,8 @@ class MovieRaterGUI:
         #configuring the info label
         search_string = ", ".join(self.search_rate)
         self.info_label.configure(text = "You have given the following movies a rating of {}:".format(search_string))
+
+        self.search_number.configure(text = "{} movies found for this search.".format(len(self.search_results)))
 
     #a method that hides the summary frame and shows the rating frame
     def back_rate(self):
